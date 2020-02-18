@@ -24,8 +24,11 @@ class Vaca(threading.Thread):
       self.avanzar()
 
 vacas = []
+sema = []
 for i in range(5):
   v = Vaca()
+  semaforo = threading.Semaphore(1)
+  sema.append(semaforo)
   vacas.append(v)
   v.start()
 
@@ -40,7 +43,13 @@ while(True):
   print('Apretá Ctrl + C varias veces para salir...')
   print()
   dibujarPuente()
-  for v in vacas:
-    v.dibujar()
+  #for v in vacas:
+  #  v.dibujar()
+  while(inicioPuente != 0):
+    for i in range(len(vacas)):
+      vacas[i].dibujar()
+    inicioPuente =-1
+   
   dibujarPuente()
+  
   time.sleep(0.2)
